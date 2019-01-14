@@ -1,2 +1,6 @@
 flask
-flask_sqlalchemy 
+flask_sqlalchemy
+bs4
+requests
+pandas
+datetime
