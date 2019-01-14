@@ -56,3 +56,32 @@ class Crawler(object):
         elapsed = (dt.now() - start_time).seconds
         print('Collected %i records in %i seconds.' % (site_data.shape[0], elapsed))
         return site_data
+      
+     
+    @staticmethod
+    def split_column(site_data):
+        return_data = ['','']
+        data = site_data.split("-")
+        
+        if 'br' in data[0]:
+            return_data[1]= data[0].strip()
+        elif 'm2' in data[0]:
+            return_data[0]= data[0].strip()
+            
+        if len(data) > 1:
+            if 'br' in data[1]:
+              return_data[1]= data[1].strip()
+            elif 'm2' in data[1]:
+              return_data[0]= data[1].strip()
+              
+        return return_data
+
+    @staticmethod
+    def convertdf(df):
+        temp = df["M2_ET_PIECES"].apply(split_column)
+        df["M2"] = list(map(lambda x: x[0].lower().replace("m2",""), temp))
+        df["PIECES"] = list(map(lambda x: x[1].lower().replace("br",""),temp))
+        del df["M2_ET_PIECES"]
+        return df
+
+    
