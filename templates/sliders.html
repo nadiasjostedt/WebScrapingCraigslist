@@ -1,0 +1,34 @@
+<html>
+  <head>
+    <title>Bootstrap Slider</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.0.0/css/bootstrap-slider.min.css">
+  </head>
+  <body>
+      <div class="jumbotron text-center">
+      <label>Single Slider</label>
+      <input id="basic" type="text" data-slider-min="0" data-slider-max="100" data-slider-step="5" data-slider-value="15"/>
+      <label>Vertical Slider</label>
+      <input id="vertical" type="text" data-slider-min="0" data-slider-max="100" data-slider-step="10" data-slider-value="25"/>
+      <label>Range Slider</label>
+      <input id="range" type="text"/>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.0.0/bootstrap-slider.min.js"></script>
+    <script>
+      var slider = new Slider("#basic", {
+        tooltip: 'always'
+      });
+     var slider = new Slider("#vertical", {
+        orientation: 'vertical',
+        tooltip: 'always'
+      });
+      var slider = new Slider("#range", {
+        min: 0,
+        max: 100,
+        value: [50, 80],
+        range: true,
+        tooltip: 'always'
+      });
+    </script>
+  </body>
+</html>
