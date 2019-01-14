@@ -7,13 +7,13 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.0.0/css/bootstrap-slider.min.css">
 </head>
   <body>
-  <table>
+  <table border="1">
       <tr>
           <td>
 
     <h1>Add Appartment</h1>
     <form method="POST" action="/">
-        Title </br>
+        Titlesdfgxdfbgxfgbfgbnfgvn </br>
       <input type="text" name="listing_title" required>
        </br>Price </br>
       <input type="number" min="0" step="0.01" name="listing_price" required></br></br>
@@ -84,7 +84,7 @@
 <option value="19th Arr">19th Arr</option>
 <option value="20th Arr">20th Arr</option>
             </select>
-<input type="text"  name="sdfsdgfdfg" id="sa"/>
+<input type="text" name="sdfsdgfdfg" value="dfvzdfbxcgb" id="sa"/>
 
 
     </form>
@@ -113,11 +113,11 @@
      {% for immeuble in immeubles %}
         <tr>
          <input type="hidden" value="{{ immeuble.title_id }}" name="title_id">
-        <td> {{immeuble.listing_title}}</td>
-        <td> {{immeuble.listing_price}}</td>
-            <td> {{immeuble.listing_m2}}</td>
-            <td> {{immeuble.listing_pieces}}</td>
-            <td> {{immeuble.listing_neighborhood}}</td>
+        <td>{{immeuble.listing_title}}</td>
+        <td>{{immeuble.listing_price}}</td>
+            <td>{{immeuble.listing_m2}}</td>
+            <td>{{immeuble.listing_pieces}}</td>
+            <td>{{immeuble.listing_neighborhood}}</td>
             <td> <a href="{{immeuble.link_to_listing}}">View</a> </td>
 
         <td>
@@ -277,7 +277,7 @@
   <script>
 
       function criteria() {
-         var input, filter, table, neighbour, voisin, tr, td_price,td_area, td_pieces, td_neighbour, i, txtValue, td_pricev,td_areav, td_piecesv, td_neighbourv;
+         var input, filter, table, neighbour, voisin,all, tr, td_price,td_area, td_pieces, td_neighbour, i, txtValue, td_pricev,td_areav, td_piecesv, td_neighbourv;
   var price = [];
   var pieces = [];
   var area = [];
@@ -299,22 +299,22 @@
                  td_areav= td_area.content || td_area.innerText;
                  td_piecesv= td_pieces.content || td_pieces.innerText;
                  td_neighbourv= td_neighbour.content || td_neighbour.innerText;
-
-
-                     if(parseInt(price[1]) < parseInt(td_pricev) || parseInt(price[0]) > parseInt(td_pricev) || parseInt(area[1]) < parseInt(td_areav) || parseInt(area[0]) > parseInt(td_areav) || parseInt(pieces[1]) < parseInt(td_piecesv) || parseInt(pieces[0]) > parseInt(td_piecesv)) {
-                         document.getElementById("sa").value = neighbour;
-
-                         tr[i].style.display = "none";}
+                 all = "All";
+                     document.getElementById("sa").value = td_neighbourv + neighbour;
+                     if(parseInt(price[1]) < parseInt(td_pricev) || parseInt(price[0]) > parseInt(td_pricev)
+                         || parseInt(area[1]) < parseInt(td_areav) || parseInt(area[0]) > parseInt(td_areav)
+                         || parseInt(pieces[1]) < parseInt(td_piecesv) || parseInt(pieces[0]) > parseInt(td_piecesv)
+                      )
+                      {     //if (td_neighbourv != neighbour ){
+                                 tr[i].style.display = "none";
+                         }
                      else
                          {
-                             tr[i].style.display = "";
+                             if(td_neighbourv == neighbour || "All" == neighbour)tr[i].style.display = "";
+                             else
+                             tr[i].style.display = "none";
                          }
-
                  }
-
-
-
-
              }
       }
 
@@ -348,12 +348,6 @@
       });
     </script>
 
-  <script type="text/Javascript">
-    function changeLabel()
-    {
-        document.getElementById('button').innerHTML = 'sdfgdsfgdsfgdfg';
-    }
-</script>
 
 
 
