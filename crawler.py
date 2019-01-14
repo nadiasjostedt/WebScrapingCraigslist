@@ -9,23 +9,19 @@ class Crawler(object):
         self.url = ''
         self.page = None
         self.soup = None
-        self.raw_page_data = None
-        self.clean_page_data = None
-        self.total_count = None
-        self.site_data = None
-        self.batch_size = None
         
-    def load_page(self, url, css_class='result-info'):
+    def load_page(self, url):
         self.url = url
-        self.page = requests.get(self.url)
+        self.page = requests.get(url)
         self.soup = BeautifulSoup(self.page.text, 'html.parser')
-        self.raw_page_data = self.soup.find_all(class_=css_class)
-        self.batch_size = len(self.raw_page_data)
-        self.total_count = int(self.soup.find(class_='totalcount').get_text())
         
-    def _get_page_data(self):
+    def find_all(self, **kwargs):
+        return self.soup.find_all(**kwargs)
+        
+    def get_page_data(self):
         tmp_data = list()
-        for page in self.raw_page_data:
+        raw_page_data = self.find_all(class_='result-info')
+        for page in raw_page_data:
             title = page.find(class_='result-title hdrlnk')
             price = page.find(class_='result-price')
             m2_and_peices = page.find(class_='housing')
@@ -40,21 +36,31 @@ class Crawler(object):
 
             tmp_data.append((title, price, m2_and_peices, neighborhood, link))
             
-        self.clean_page_data = pd.DataFrame(tmp_data, 
-                                    columns=['TITRE', 'PRIX', 'M2_ET_PIECES', 'ARR', 'LINK'])
-        del tmp_data
-        return self.clean_page_data
+        return self.convertdf(pd.DataFrame(tmp_data, columns=['TITRE', 'PRIX', 'M2_ET_PIECES', 'ARR', 'LINK']))
     
     def get_site_data(self):
         start_time = dt.now()
+        
         self.load_page('https://paris.craigslist.org/d/logement-%C3%A0-louer/search/apa')
-        self.site_data = self._get_page_data()
-        for idx in range(self.batch_size, self.total_count, self.batch_size):
+        batch_size = len(self.find_all(class_='result-info'))
+        total_record_count = int(self.soup.find(class_='totalcount').get_text())
+        site_data = self.get_page_data()
+        print('total_record_count= {}'.format(total_record_count))
+        for idx in range(batch_size, total_record_count, batch_size):
             new_url = 'https://paris.craigslist.org/search/apa?s=%i' % idx
             self.load_page(new_url)
-            self.site_data = pd.concat((self.site_data, self._get_page_data()), axis=0)
+            site_data = pd.concat((site_data, self.get_page_data()), axis=0)
+            
+        site_data['ARR'] = site_data['ARR'].apply(lambda x: x.replace("(","").replace(")",""))
             
         elapsed = (dt.now() - start_time).seconds
-        print('Collected %i records in %i seconds.' % (self.site_data.shape[0], elapsed))
-        return self.site_data
-            
+        print('Collected %i records in %i seconds.' % (site_data.shape[0], elapsed))
+        return site_data
+      
+     
+
+    def add_description(self, site_data):
+
+      site_data['DESCRIPTION'] = ''
+
+    
