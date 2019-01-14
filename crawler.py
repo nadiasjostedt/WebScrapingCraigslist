@@ -56,11 +56,3 @@ class Crawler(object):
         elapsed = (dt.now() - start_time).seconds
         print('Collected %i records in %i seconds.' % (site_data.shape[0], elapsed))
         return site_data
-      
-     
-
-    def add_description(self, site_data):
-
-      site_data['DESCRIPTION'] = ''
-
-    
