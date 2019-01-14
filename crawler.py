@@ -36,7 +36,8 @@ class Crawler(object):
 
             tmp_data.append((title, price, m2_and_peices, neighborhood, link))
             
-        return self.convertdf(pd.DataFrame(tmp_data, columns=['TITRE', 'PRIX', 'M2_ET_PIECES', 'ARR', 'LINK']))
+        return self.convertdf(pd.DataFrame(tmp_data, columns=['TITRE', 'PRIX', 'M2_ET_PIECES', 'ARR', 'LINK']),
+                              self.split_column)
     
     def get_site_data(self):
         start_time = dt.now()
@@ -60,28 +61,26 @@ class Crawler(object):
      
     @staticmethod
     def split_column(site_data):
-        return_data = ['','']
+        return_data = ['', '']
         data = site_data.split("-")
         
         if 'br' in data[0]:
-            return_data[1]= data[0].strip()
+            return_data[1] = data[0].strip()
         elif 'm2' in data[0]:
-            return_data[0]= data[0].strip()
+            return_data[0] = data[0].strip()
             
         if len(data) > 1:
             if 'br' in data[1]:
-              return_data[1]= data[1].strip()
+                return_data[1] = data[1].strip()
             elif 'm2' in data[1]:
-              return_data[0]= data[1].strip()
+                return_data[0] = data[1].strip()
               
         return return_data
 
     @staticmethod
-    def convertdf(df):
+    def convertdf(df, split_column):
         temp = df["M2_ET_PIECES"].apply(split_column)
         df["M2"] = list(map(lambda x: x[0].lower().replace("m2",""), temp))
         df["PIECES"] = list(map(lambda x: x[1].lower().replace("br",""),temp))
         del df["M2_ET_PIECES"]
         return df
-
-   
