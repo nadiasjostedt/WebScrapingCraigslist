@@ -39,62 +39,62 @@ class CRUD(object):
                              'listing_pieces', 'listing_neighborhood',
                              'link_to_listing']
         self.crawler = Crawl()
+        self.engine = create_engine('sqlite://', echo=False)
 
     def initiate_database(self):
         data = self.crawler.get_site_data()
-        engine = create_engine('sqlite://', echo=False)
         params = {
             'name': 'immeubles',
-            'con': engine,
+            'con': self.engine,
             'if_exists': 'replace',
             'index': True,
             'index_label': 'id'
         }
         data.to_sql(**params)
+        del data
 
     @app.route('/create', methods=['GET', 'POST'])
     def create(self):
         if self.request.method == 'POST':
-            if not self.request.form['listing_title'] or not self.request.form['listing_price'] or not self.request.form[
-                'listing_m2'] or not self.request.form['listing_pieces'] or not self.request.form['listing_neighborhood'] or not \
-                    self.request.form['link_to_listing']:
+            if not self.request.form['listing_title'] or not self.request.form['listing_price'] \
+                    or not self.request.form['listing_m2'] or not self.request.form['listing_pieces'] \
+                    or not self.request.form['listing_neighborhood'] or not self.request.form['link_to_listing']:
                 flash('Please enter all the fields', 'error')
             else:
                 new_record = Immeubles(*[self.request.form[column] for column in self.column_names])
-                db.session.add(new_record)
-                db.session.commit()
+                self.db.session.add(new_record)
+                self.db.session.commit()
                 flash('Record was successfully added: {}'.format(new_record))
         return render_template('main.html', immeubles=Immeubles.query.all())
 
     @app.route('/update', methods=['GET', 'POST'])
     def update(self):
-        if request.method == 'POST':
-            if not request.form['listing_title'] or not request.form['listing_price'] or not request.form[
-                'listing_m2'] or not request.form['listing_pieces'] or not request.form['listing_neighborhood'] or not \
-            request.form['link_to_listing']:
+        if self.request.method == 'POST':
+            if not self.request.form['listing_title'] or not self.request.form['listing_price'] \
+                    or not self.request.form['listing_m2'] or not self.request.form['listing_pieces'] \
+                    or not self.request.form['listing_neighborhood'] or not self.request.form['link_to_listing']:
                 flash('Please enter all the fields', 'error')
             else:
                 appart = Immeubles.query.filter_by(listing_id=request.form['title_id']).first()
-                appart.listing_title = request.form['listing_title']
-                appart.listing_price = request.form['listing_price']
-                appart.listing_m2 = request.form['listing_m2']
-                appart.listing_pieces = request.form['listing_pieces']
-                appart.listing_neighborhood = request.form['listing_neighborhood']
-                appart.link_to_listing = request.form['link_to_listing']
+                appart.listing_title = self.request.form['listing_title']
+                appart.listing_price = self.request.form['listing_price']
+                appart.listing_m2 = self.request.form['listing_m2']
+                appart.listing_pieces = self.request.form['listing_pieces']
+                appart.listing_neighborhood = self.request.form['listing_neighborhood']
+                appart.link_to_listing = self.request.form['link_to_listing']
                 db.session.commit()
                 return render_template('main.html', immeubles=Immeubles.query.all())
         else:
-            title_id_up = request.args.get("title_id_up")
-            listing_title_up = request.args.get("listing_title_up")
-            listing_price_up = request.args.get('listing_price_up')
-            listing_m2_up = request.args.get('listing_m2_up')
-            listing_pieces_up = request.args.get('listing_pieces_up')
-            listing_neighborhood_up = request.args.get('listing_neighborhood_up')
-            link_to_listing_up = request.args.get('link_to_listing_up')
-            return render_template('update.html', title_id_up=title_id_up, listing_title_up=listing_title_up,
-                                   listing_price_up=listing_price_up, listing_m2_up=listing_m2_up,
-                                   listing_pieces_up=listing_pieces_up, listing_neighborhood_up=listing_neighborhood_up,
-                                   link_to_listing_up=link_to_listing_up)
+            args = {
+                'title_id_up': self.request.args.get("title_id_up"),
+                'listing_title_up': self.request.args.get("listing_title_up"),
+                'listing_price_up': self.request.args.get('listing_price_up'),
+                'listing_m2_up': self.request.args.get('listing_m2_up'),
+                'listing_pieces_up': self.request.args.get('listing_pieces_up'),
+                'listing_neighborhood_up': self.request.args.get('listing_neighborhood_up'),
+                'link_to_listing_up': self.request.args.get('link_to_listing_up')
+            }
+            return render_template('update.html', **args)
 
     @app.route("/delete", methods=["POST"])
     def delete(self):
