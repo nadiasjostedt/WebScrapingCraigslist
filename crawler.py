@@ -84,3 +84,7 @@ class Crawler(object):
         df["PIECES"] = list(map(lambda x: x[1].lower().replace("br",""),temp))
         del df["M2_ET_PIECES"]
         return df
+
+if __name__== "__main__":
+        cr = Crawler()
+        cr.get_site_data()
