@@ -6,7 +6,7 @@ The purpose of this application is to:
 - Query and render data from SQL database in HTML using Flask.
 
 # Process flow
-![Design Pattern](templates/Scraper-Process-Flow.PNG)
+![Design Pattern](application/templates/Scraper-Process-Flow.PNG)
 
 # Dependencies
 WIP
