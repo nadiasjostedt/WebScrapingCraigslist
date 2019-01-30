@@ -1,0 +1,48 @@
+<html>
+<head><meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script></head>
+  <body>
+    <h1>update Appartment</h1>
+    <form method="POST" action="/update">
+        <input type="hidden" value="{{title_id_up}}" name="title_id">
+        Title {{title_id_up}} </br>
+
+      <input type="text" value="{{listing_title_up}}" name="listing_title" required>
+       </br>Price </br>
+      <input type="number" min="0" step="0.01" value="{{listing_price_up}}" name="listing_price" required>
+        </br>Area in meter square: </br>
+        <input type="number" min="0" step="1" value="{{listing_m2_up}}" name="listing_m2" required>
+        </br>Nb of Pieces :</br>
+        <input type="number" min="0" step="1" value="{{listing_pieces_up}}" name="listing_pieces" required>
+        </br>Neighborhood: </br>
+        <select name="listing_neighborhood">
+        <option value="1st Arr">1st Arr</option>
+<option value="2nd Arr">2nd Arr</option>
+<option value="3rd Arr">3rd Arr</option>
+<option value="4th Arr">4th Arr</option>
+<option value="5th Arr">5th Arr</option>
+<option value="6th Arr">6th Arr</option>
+<option value="7th Arr">7th Arr</option>
+<option value="8th Arr">8th Arr</option>
+<option value="9th Arr">9th Arr</option>
+<option value="10th Arr">10th Arr</option>
+<option value="11th Arr">11th Arr</option>
+<option value="12th Arr">12th Arr</option>
+<option value="13th Arr">13th Arr</option>
+<option value="14th Arr">14th Arr</option>
+<option value="15th Arr">15th Arr</option>
+<option value="16th Arr">16th Arr</option>
+<option value="17th Arr">17th Arr</option>
+<option value="18th Arr">18th Arr</option>
+<option value="19th Arr">19th Arr</option>
+<option value="20th Arr">20th Arr</option>
+            </select>
+        </br>Link: </br>
+        <input type="text" value="{{link_to_listing_up}}" name="link_to_listing" required></br>
+
+      <input type="submit" value="update Appartment">
+    </form>
+  </body>
+</html>

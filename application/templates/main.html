@@ -9,47 +9,11 @@
   <body>
   <table border="1">
       <tr>
-          <td>
 
-    <h1>Add Appartment</h1>
-    <form method="POST" action="/">
-      <input type="text" name="listing_title" required>
-       </br>Price </br>
-      <input type="number" min="0" step="0.01" name="listing_price" required></br></br>
-        </br>Area in meter square: </br>
-        <input type="number" min="0" step="1" name="listing_m2" required></br></br>
-        </br>Nb of Pieces :</br>
-        <input type="number" min="0" step="1" name="listing_pieces" required></br></br>
-        </br>Neighborhood: </br>
-        <select name="listing_neighborhood">
-        <option value="1st Arr">1st Arr</option>
-<option value="2nd Arr">2nd Arr</option>
-<option value="3rd Arr">3rd Arr</option>
-<option value="4th Arr">4th Arr</option>
-<option value="5th Arr">5th Arr</option>
-<option value="6th Arr">6th Arr</option>
-<option value="7th Arr">7th Arr</option>
-<option value="8th Arr">8th Arr</option>
-<option value="9th Arr">9th Arr</option>
-<option value="10th Arr">10th Arr</option>
-<option value="11th Arr">11th Arr</option>
-<option value="12th Arr">12th Arr</option>
-<option value="13th Arr">13th Arr</option>
-<option value="14th Arr">14th Arr</option>
-<option value="15th Arr">15th Arr</option>
-<option value="16th Arr">16th Arr</option>
-<option value="17th Arr">17th Arr</option>
-<option value="18th Arr">18th Arr</option>
-<option value="19th Arr">19th Arr</option>
-<option value="20th Arr">20th Arr</option>
-            </select>
-</br></br>
-        </br>Link: </br>
-        <input type="text" name="link_to_listing" required></br></br></br>
 
-      <input type="submit" value="Add Appartment">
-    </form>
-     </td>
+    <h1><a href="/add">Add Appartment </a></h1>
+
+
 
           <td>
 
@@ -155,8 +119,8 @@
           </td>
         </tr>
       {% endfor %}
-      {% if n > (df.shape[0] + 1) %}
-      {% for i in range(50)%}
+      {% if df.shape[0] > b %}
+      {% for i in range(b+1, df.shape[0], 1)%}
     df.iat[i, 0], df.iat[i, 2].replace('€', ''), df.iat[i, 5], df.iat[i, 6], df.iat[i, 3], df.iat[i, 4] )
 
         <tr>
