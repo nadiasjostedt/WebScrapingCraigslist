@@ -11,7 +11,7 @@ class Database(object):
         #                      'link_to_listing']
         self.column_names = ['ID', 'TITRE', 'PRIX', 'ARR', 'LINK', 'M2', 'PIECES']
         self.crawler = Crawler()
-        self.engine = create_engine('sqlite://', echo=False)
+        self.engine = create_engine('sqlite:///immeubles.sqlite3', echo=False)
         self.data = None
         self.params = {
             'name': 'immeubles',

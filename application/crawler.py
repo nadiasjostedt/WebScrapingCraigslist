@@ -91,7 +91,3 @@ class Crawler(object):
         del df["M2_ET_PIECES"]
 
         return df
-
-if __name__== "__main__":
-        cr = Crawler()
-        cr.get_site_data()

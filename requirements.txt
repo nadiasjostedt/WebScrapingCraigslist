@@ -3,4 +3,4 @@ flask_sqlalchemy
 bs4
 requests
 pandas
-sqlalchemy
+datetime
