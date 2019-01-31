@@ -5,7 +5,7 @@ import pandas as pd
 
 class Database(object):
 
-    def __init__(self):
+    def __init__(self, save_path='./exports/', save=True):
         # self.column_names = ['listing_title', 'listing_price', 'listing_m2',
         #                      'listing_pieces', 'listing_neighborhood',
         #                      'link_to_listing']
@@ -13,6 +13,8 @@ class Database(object):
         self.crawler = Crawler()
         self.engine = create_engine('sqlite:///immeubles.sqlite3', echo=False)
         self.data = None
+        self.save_path = save_path
+        self.save = save
         self.params = {
             'name': 'immeubles',
             'con': self.engine,
@@ -25,6 +27,9 @@ class Database(object):
     def _initialize_database(self):
         self.data = self.crawler.get_site_data()
         self.data.to_sql(**self.params)
+        if self.save:
+            filename = self.save_path + 'ApartmentExport'
+            self.export_to_csv(data=self.data, filename=filename, compress=False)
 
     def read(self):
         query_data = self.engine.execute("SELECT * FROM %s" % self.params['name']).fetchall()
@@ -61,8 +66,8 @@ class Database(object):
     @staticmethod
     def export_to_csv(data, filename='apartment_data', compress=False):
         if compress:
-            subfolder = './{}.xz'.format(filename)
+            subfolder = '{}.xz'.format(filename)
             data.to_csv(path_or_buf=subfolder, index=False, compression='xz')
         else:
-            subfolder = './{}.csv'.format(filename)
+            subfolder = '{}.csv'.format(filename)
             data.to_csv(path_or_buf=subfolder, index=False)
