@@ -9,7 +9,7 @@ The purpose of this application is to:
 ![Design Pattern](application/templates/Scraper-Process-Flow.PNG)
 
 # Dependencies
-WIP
+Refer to requirements.txt
 
 # Getting Started
 WIP
