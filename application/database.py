@@ -1,6 +1,7 @@
 from .crawler import Crawler
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, types
 import pandas as pd
+import os
 
 
 class Database(object):
@@ -18,7 +19,9 @@ class Database(object):
             'con': self.engine,
             'if_exists': 'replace',
             'index': True,
-            'index_label': 'ID'
+            'index_label': 'ID',
+            'dtype': { 'PRIX': types.INTEGER(), 'M2': types.INTEGER(), 'PIECES': types.INTEGER()}
+
         }
         self._initialize_database()
 
@@ -32,7 +35,7 @@ class Database(object):
         return self.data
 
     def create(self, titre, prix, arr, link, m2, pieces):
-        query = "INSERT INTO %s (%s, %s, %s, %s, %s, %s, %s) VALUES (%i, '%s', '%s', '%s', '%s', '%s', '%s')" % \
+        query = "INSERT INTO %s (%s, %s, %s, %s, %s, %s, %s) VALUES (%i, '%s', '%i', '%s', '%s', '%s', '%s')" % \
                     (self.params['name'],
                      self.column_names[0],
                      self.column_names[1], self.column_names[2],
@@ -52,6 +55,12 @@ class Database(object):
         print('Updated record #%i' % id)
         return self.read()
 
+    def search(self, prixmin, prixmax, m2min, m2max, piecesmin, piecesmax ):
+        query = "Select * from immeubles  where PRIX >= %i and PRIX <= %i and  M2 >= %i and M2 <= %i and PIECES >= %i and PIECES <= %i " % (prixmin, prixmax, m2min, m2max, piecesmin, piecesmax)
+        query_data = self.engine.execute(query).fetchall()
+        self.data = pd.DataFrame(data=query_data, columns=self.column_names)
+        return self.data
+
     def delete(self, id):
         query = "DELETE FROM %s WHERE ID=%i" % (self.params['name'], id)
         self.engine.execute(query)
@@ -63,6 +72,11 @@ class Database(object):
         if compress:
             subfolder = './{}.xz'.format(filename)
             data.to_csv(path_or_buf=subfolder, index=False, compression='xz')
+
         else:
-            subfolder = './{}.csv'.format(filename)
+            subfolder =os.getcwd()+'\exports\csv\{}.csv'.format(filename)
             data.to_csv(path_or_buf=subfolder, index=False)
+
+    @staticmethod
+    def export_to_json(data):
+        data.to_json(r''+os.getcwd()+'\exports\json\jsonexport.json')
