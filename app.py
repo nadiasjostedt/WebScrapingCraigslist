@@ -22,8 +22,6 @@ print('args are : {}'.format(args))
 db = Database()
 n = db.read().shape[0] - 1
 immeubles = db.read()
-db.export_to_csv(immeubles, 'apartment_data', False)
-db.export_to_json(immeubles)
 
 @app.route('/', methods=['GET', 'POST'])
 def main():
@@ -31,7 +29,6 @@ def main():
 
 @app.route('/search', methods=['GET', 'POST'])
 def search():
-    global n
     piecesmin = request.form['piecesmin']
     piecesmax = request.form['piecesmax']
     pricemin = request.form['pricemin']
