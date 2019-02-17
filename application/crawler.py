@@ -89,6 +89,7 @@ class Crawler(object):
         df["PIECES"] = list(map(lambda x: x[1].lower().replace("br", ""), temp))
         df['ARR'] = df['ARR'].apply(lambda x: x.replace("(", "").replace(")", ""))
         df["PRIX"] = df["PRIX"].str.replace('€', '')
+        df["PRIX"] = pd.to_numeric(df['PRIX'], errors='coerce')
         del temp
         del df["M2_ET_PIECES"]
 
