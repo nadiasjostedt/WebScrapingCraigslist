@@ -5,5 +5,5 @@ source ./venv/bin/activate
 echo "...environment started up."
 
 echo "Starting up application..."
-python app.py --save=True
+python app.py --save=True --num_to_render=150
 echo "...finished starting up application."

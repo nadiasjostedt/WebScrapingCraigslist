@@ -6,11 +6,13 @@ import argparse
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--num_to_render',
-                    default=50,
-                    help="Number of records to render")
+                    default=150,
+                    help="Number of records to render",
+                    type=int)
 parser.add_argument('--save',
                     default=True,
-                    help="True or False, save database")
+                    help="True or False, save database",
+                    type=bool)
 args = vars(parser.parse_args())
 print('args are : {}'.format(args))
 
@@ -29,8 +31,9 @@ def export_data():
 
 @app.route('/', methods=['GET', 'POST'])
 def main():
+    db.read()
     b = min(args['num_to_render'], db.data.shape[0])
-    return render_template('main.html', df=db.read(), b=b)
+    return render_template('main.html', df=db.data, b=b)
 
 
 @app.route('/search', methods=['GET', 'POST'])
