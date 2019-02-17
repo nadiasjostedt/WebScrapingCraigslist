@@ -6,6 +6,7 @@ db = SQLAlchemy(app)
 
 
 class Immeubles(db.Model):
+
     listing_id = db.Column('immeubles_id', db.Integer, primary_key=True)
     listing_title = db.Column(db.String(200))
     listing_price = db.Column(db.String(200))

@@ -6,10 +6,15 @@ The purpose of this application is to:
 - Query and render data from SQL database in HTML using Flask.
 
 # Process flow
-![Design Pattern](application/templates/Scraper-Process-Flow.PNG)
+![Design Pattern](exports/Scraper-Process-Flow.PNG)
 
 # Dependencies
 Refer to requirements.txt
 
 # Getting Started
-WIP
+To run the CraigsListScraping application, run the bash script `run.sh`. 
+It will start up a virtual environment, then launch the application which 
+follows the process flow outlined above.
+```
+$ ./run.sh
+```
